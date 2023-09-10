@@ -1,16 +1,38 @@
 import {useState} from 'react'
 
+interface InfoAlunoProps{
+  nome: string;
+  idade: string;
+}
+
 export default function App(){
   const [input, setInput] = useState("")
-  const [idade, setIdade] = useState("Nenhuma idade inserida");
-  const [aluno, setAluno] = useState("Sem nenhum nome");
+  const [alunoIdade, setAlunoIdade] = useState("");
+
+  const [infoAluno, setInfoAluno] = useState<InfoAlunoProps>()
+
+  const [contador, setContador] = useState(0)
 
   function mostrarAluno(){
-    setAluno(input);
-    setIdade(idade);
+
+    setInfoAluno({
+      nome: input,
+      idade: alunoIdade,
+    })
   }
 
+  function adicionar(){
+    setContador(valorAtual => valorAtual + 1)
+  }
 
+  function diminuir(){
+    if(contador === 0){
+      return;
+    }
+    
+    setContador(valorAtual => valorAtual - 1)
+    
+  }
 
   return(
     <div>
@@ -21,13 +43,19 @@ export default function App(){
       />
       <br/><br/>
       <input placeholder="Digite a idade"
-      value={idade}
-      onChange={(e) => setIdade(e.target.value)}
+      value={alunoIdade}
+      onChange={(e) => setAlunoIdade(e.target.value)}
       />
       <br/><br/>
       <button onClick={mostrarAluno}>Mostrar aluno</button>
       <hr/>
-      <h3>Bem vindo: {aluno}, {idade} </h3>
+      <h3>Bem vindo: {infoAluno?.nome}</h3>
+      <h4>Idade: {infoAluno?.idade}</h4>
+      <hr/>
+      <br/>
+      <h1>Contador com useState</h1>
+
+      <button onClick={adicionar}>+</button> {contador} <button onClick={diminuir}>-</button>
     </div>
   )
 }
